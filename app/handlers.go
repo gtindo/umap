@@ -1,8 +1,11 @@
 package app
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func AppHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,13 +30,34 @@ func StatisticsHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
+func ShortenHandler(w http.ResponseWriter, r *http.Request) {
+	tmpFiles := []string{
+		"app/templates/shorten.html",
+		"app/templates/base.html",
+	}
+
+	tmpl := template.Must(template.ParseFiles(tmpFiles...))
+
+	tmpl.Execute(w, nil)
+}
+
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	// Get the Id from URL
-	// Get request metadata
+	http.Redirect(w, r, "/app", 301)
+}
 
-	// Check if the Id exists on redis, get url, redirect
+func RedirectHandler(w http.ResponseWriter, r *http.Request) {
+	// Get Id of url
+	vars := mux.Vars(r)
+	id := vars["id"]
 
-	// If not check if it exists on DB, get url, save on redis, redirect
+	fmt.Fprintf(w, id)
+	// Get Id from redis
 
-	// If not redirect to http 404 page
+	// If not exists Get Id from MySQL
+
+	// If exist set this Id on Redis with a timeout
+
+	// Redirect to the url
+
+	// If Id does not exist on MySQL redirect to HTTP 404 page
 }
