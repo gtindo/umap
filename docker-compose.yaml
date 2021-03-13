@@ -1,0 +1,21 @@
+version: '3.8'
+services: 
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_DATABASE=umap
+      - MYSQL_USER=umap
+      - MYSQL_PASSWORD=umap
+      - MYSQL_ROOT_PASSWORD=umap
+    ports:
+      - 3306:3306
+
+  
+  web:
+    build: .
+    ports: 
+      - 9000:8000
+    depends_on: ["db"]
