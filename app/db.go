@@ -13,17 +13,21 @@ var db *sql.DB
 var ctx = context.Background()
 var rdb *redis.Client
 
-func InitDb(dbStr string) {
-	db, err := sql.Open("mysql", dbStr)
+func InitDb(dbStr string) error {
+	var err error
+
+	db, err = sql.Open("mysql", dbStr)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	if err := db.Ping(); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	log.Println("Connection established with MYSQL DB")
+
+	return db.Ping()
 }
 
 func InidRedisDb(addr string, password string, dbNum int) {

@@ -21,7 +21,11 @@ func main() {
 	redisPassword := os.Getenv("REDIS_PASSWORD")
 	redisDb := 0
 
-	app.InitDb(dbStr)
+	err := app.InitDb(dbStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	app.InidRedisDb(redisAddr, redisPassword, redisDb)
 
 	defer http.ListenAndServe(":"+port, app.GetAppRouter())

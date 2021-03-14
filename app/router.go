@@ -12,11 +12,14 @@ func GetAppRouter() *mux.Router {
 	fs := http.StripPrefix("/static/", http.FileServer(http.Dir("app/static/")))
 	r.PathPrefix("/static/").Handler(fs)
 
+	r.HandleFunc("/404", Page404Handler).Methods("GET")
+
 	r.HandleFunc("/app", AppHandler).Methods("GET")
 	r.HandleFunc("/statistics", StatisticsHandler).Methods("GET")
 	r.HandleFunc("/shorten", ShortenHandler)
+
 	r.HandleFunc("/{id}", RedirectHandler).Methods("GET")
-	r.HandleFunc("/", IndexHandler).Methods("GET")
+	//r.HandleFunc("/", IndexHandler).Methods("GET")
 
 	return r
 }
