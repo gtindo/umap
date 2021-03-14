@@ -1,5 +1,7 @@
 package app
 
+import "net/url"
+
 func GenerateHash(id int64) string {
 	b62 := []string{
 		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
@@ -19,4 +21,14 @@ func GenerateHash(id int64) string {
 	}
 
 	return _hash
+}
+
+func ValidateURI(uri string) bool {
+	_, err := url.Parse(uri)
+
+	if err != nil {
+		return false
+	}
+
+	return true
 }

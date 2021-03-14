@@ -10,16 +10,19 @@
                 Enter a long URL to make it shorter
             </h1>
 
-            <form class="item-center">
-                <div class="field has-addons"> 
-                    <div class="control">
-                        <input type="text" class="input is-primary is-large" placeholder="https://yoururl.com/" />
+            <form class="item-center" action="/shorten" method="post" onsubmit="validateUrl()">
+                <div>
+                    <div class="field has-addons"> 
+                        <div class="control">
+                            <input type="text" id="urlField" name="url" class="input is-primary is-large" onchange="resetError()" placeholder="https://yoururl.com/" />
+                        </div>
+
+                        <div class="control"> 
+                            <input type="submit" class="button is-primary is-large" value="Shorten" />
+                        </div>
                     </div>
 
-                    <div class="control"> 
-                        <input type="submit" class="button is-primary is-large" value="Shorten" />
-                    </div>
-                    
+                    <span class="has-text-danger" id="urlFieldError"> </span>
                 </div>
             </form>
         
@@ -29,4 +32,6 @@
     <section id="features">
         
     </section>
+
+    <script src="/static/js/utils.js"> </script>
 {{end}}

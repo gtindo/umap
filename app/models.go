@@ -32,12 +32,12 @@ func GetUrl(linkId string) (*Url, error) {
 
 func CreateUrl(link string) (*Url, error) {
 	query := `
-		INSERT INTO Urls (Link, CreatedAt) VALUES(?, ?, ?)
+		INSERT INTO Urls (Link, LinkId, CreatedAt) VALUES(?, ?, ?)
 	`
 
 	dateTime := time.Now()
 
-	result, err := db.Exec(query, link, dateTime)
+	result, err := db.Exec(query, link, "", dateTime)
 
 	if err != nil {
 		log.Println("Error while creating URL", link)

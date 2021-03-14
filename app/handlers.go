@@ -3,6 +3,7 @@ package app
 import (
 	"html/template"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -20,9 +21,9 @@ func AppHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
-func StatisticsHandler(w http.ResponseWriter, r *http.Request) {
+func AnalyticsHandler(w http.ResponseWriter, r *http.Request) {
 	tmpFiles := []string{
-		"app/templates/statistics.html",
+		"app/templates/analytics.html",
 		"app/templates/base.html",
 	}
 
@@ -36,14 +37,44 @@ func ShortenHandler(w http.ResponseWriter, r *http.Request) {
 		"app/templates/shorten.html",
 		"app/templates/base.html",
 	}
-
 	tmpl := template.Must(template.ParseFiles(tmpFiles...))
 
-	tmpl.Execute(w, nil)
-}
+	if r.Method != http.MethodPost {
+		tmpl.Execute(w, nil)
+		return
+	}
 
-func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/app", 301)
+	baseUrl := os.Getenv("BASE_URL")
+
+	type ResponseData struct {
+		InitialLink string
+		NewLink     string
+		Error       string
+	}
+
+	link := r.FormValue("url")
+
+	data := ResponseData{
+		InitialLink: link,
+		NewLink:     "",
+		Error:       "",
+	}
+
+	if !ValidateURI(link) {
+		data.Error = "Invalid URL provided"
+		tmpl.Execute(w, nil)
+		return
+	}
+
+	newUrl, err := CreateUrl(link)
+
+	data.NewLink = baseUrl + newUrl.LinkId
+
+	if err != nil {
+		data.Error = "Something went wrong !!"
+	}
+
+	tmpl.Execute(w, data)
 }
 
 func RedirectHandler(w http.ResponseWriter, r *http.Request) {

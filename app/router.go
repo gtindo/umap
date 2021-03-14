@@ -15,11 +15,10 @@ func GetAppRouter() *mux.Router {
 	r.HandleFunc("/404", Page404Handler).Methods("GET")
 
 	r.HandleFunc("/app", AppHandler).Methods("GET")
-	r.HandleFunc("/statistics", StatisticsHandler).Methods("GET")
+	r.HandleFunc("/statistics", AnalyticsHandler).Methods("GET")
 	r.HandleFunc("/shorten", ShortenHandler)
 
 	r.HandleFunc("/{id}", RedirectHandler).Methods("GET")
-	//r.HandleFunc("/", IndexHandler).Methods("GET")
 
 	return r
 }

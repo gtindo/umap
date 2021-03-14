@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE Urls (
+CREATE TABLE IF NOT EXISTS Urls (
     Id INT AUTO_INCREMENT,
     Link TEXT NOT NULL,
     LinkId VARCHAR(256) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE Urls (
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-CREATE TABLE Visitors (
+CREATE TABLE IF NOT EXISTS Visitors (
     Id INT AUTO_INCREMENT,
     UrlId INT NOT NULL,
     Device VARCHAR(100),

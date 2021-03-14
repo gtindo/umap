@@ -9,33 +9,58 @@
         <h1 class="title is-2">Your shortened URL</h1>
         <div class="card">
             <div class="card-content">
+                <span class="has-danger-color">{{.Error}}</span>
                 <form>
                     <div class="field has-addons">
                         <div class="control is-expanded"> 
-                            <input type="text" class="input is-primary is-medium is-fullwidth" />
+                            <input type="text" id="shortenedUrlField" value="{{.NewLink}}" class="input is-primary is-medium is-fullwidth" />
                         </div>
                         <div class="control">
-                            <input type="button" class="button is-primary is-medium" value="Copy URL" />
+                            <input type="button" id="copyButton" class="button is-primary is-medium" onClick="copyUrlToClipboard()" value="Copy URL" />
                         </div>
                     </div>
                 </form>
 
                 <br />
-                <span>Initial url: <a href="#">Initial url</a> </span> <br />
-                <span>View statistic from shortened URL </span>
+                <span id="copiedUrl"> </span>
+                <span>Initial url: <a href="{{.InitialLink}}">{{.InitialLink}}</a> </span> <br />
+                <span>View <a href="#"> analytics </a> from shortened URL </span></a><br />
+                <a href="/app">Create a new shorten url.</a>
             </div>
         </div>
 
         <br />
         <div>
             <h2 class="title is-3">Share URL</h2>
-            <a href="#" class="button is-link"><i class="fa fa-facebook"> </i>&ensp;Facebook</a>
-            <a href="#" class="button is-info"><i class="fa fa-twitter"></i>&ensp;Twitter</a>
-            <a href="#" class="button is-success"><i class="fa fa-whatsapp"></i>&ensp;Whatsapp</a>
-            <a href="#" class="button is-info"><i class="fa fa-telegram"></i>&ensp;Telegram</a>
-            <a href="#" class="button is-danger"><i class="fa fa-pinterest"></i>&ensp;Pinterest</a>
+            <a href="#" 
+               onClick="MyWindow=window.open('https://www.facebook.com/sharer/sharer.php?u={{.NewLink}}', 'MyWindow', 'width=600, height=300'); return false;"
+               class="button is-link" 
+               target="popup" rel="no">
+                <i class="fa fa-facebook"> </i>&ensp;Facebook
+            </a>
+            <a href="#"
+               onClick="MyWindow=window.open('https://twitter.com/intent/tweet?url={{.NewLink}}', 'MyWindow', 'width=600, height=300'); return false;" 
+               class="button is-info" target="popup">
+               <i class="fa fa-twitter"></i>&ensp;Twitter
+            </a>
+            <a href="#"
+               onClick="MyWindow=window.open('https://wa.me/?text={{.NewLink}}', 'MyWindow', 'width=600, height=300'); return false;" 
+               class="button is-success" target="popup">
+               <i class="fa fa-whatsapp"></i>&ensp;Whatsapp
+            </a>
+            <a href="#"
+               onClick="MyWindow=window.open('https://t.me/share/url?url={{.NewLink}}', 'MyWindow', 'width=600, height=300'); return false;" 
+               class="button is-info" target="popup">
+               <i class="fa fa-telegram"></i>&ensp;Telegram
+            </a>
+            <a href="#"
+               onClick="MyWindow=window.open('https://www.pinterest.com/pin/create/link/?url={{.NewLink}}', 'MyWindow', 'width=600, height=300'); return false;" 
+               class="button is-danger" target="popup">
+               <i class="fa fa-pinterest"></i>&ensp;Pinterest
+            </a>
         </div>
     </div>
 </section>
 
+<script src="/static/js/utils.js"> </script>
 {{end}}
