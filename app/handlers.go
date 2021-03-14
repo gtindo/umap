@@ -83,14 +83,16 @@ func RedirectHandler(w http.ResponseWriter, r *http.Request) {
 	linkId := vars["id"]
 
 	if linkId == "" {
-		http.Redirect(w, r, "/app", 301)
+		http.Redirect(w, r, "/app", http.StatusPermanentRedirect)
+		return
 	}
 
 	// Get Link from redis
 	link, err := rdb.Get(ctx, linkId).Result()
 
 	if err != redis.Nil {
-		http.Redirect(w, r, link, 301)
+		http.Redirect(w, r, link, http.StatusPermanentRedirect)
+		return
 	}
 
 	// If not exists Get Id from MySQL
@@ -98,13 +100,14 @@ func RedirectHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		// If Id does not exist on MySQL redirect to HTTP 404 page
-		http.Redirect(w, r, "/404", 301)
+		http.Redirect(w, r, "/404", http.StatusPermanentRedirect)
+		return
 	}
 
 	// If exist set this Id on Redis with a timeout
 	// Redirect to the url
 	rdb.Set(ctx, linkId, _url.LinkId, time.Duration(1000))
-	http.Redirect(w, r, _url.Link, 301)
+	http.Redirect(w, r, _url.Link, http.StatusPermanentRedirect)
 }
 
 func Page404Handler(w http.ResponseWriter, r *http.Request) {
@@ -116,4 +119,9 @@ func Page404Handler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles(tmpFiles...))
 
 	tmpl.Execute(w, nil)
+}
+
+func GoogleLoginHandler(w http.ResponseWriter, r *http.Request) {
+	url := googleOauthConfig.AuthCodeURL(oauthStateString)
+	http.Redirect(w, r, url, http.StatusTemporaryRedirect)
 }

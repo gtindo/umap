@@ -26,7 +26,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	app.InidRedisDb(redisAddr, redisPassword, redisDb)
+	app.InitRedisDb(redisAddr, redisPassword, redisDb)
+	app.InitGoogleAuth()
 
 	defer http.ListenAndServe(":"+port, app.GetAppRouter())
 

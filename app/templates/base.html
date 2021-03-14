@@ -46,11 +46,9 @@
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-primary">
-                                <strong>Sign up</strong>
-                            </a>
-                            <a class="button is-light">
-                                Log in
+                            <a class="button is-primary is-small" href="/login/google">
+                                <i class="fa fa-google"> </i>&ensp;
+                                <strong>Sign In With Google</strong>
                             </a>
                         </div>
                     </div>
@@ -62,6 +60,7 @@
     <main>
         {{template "main" .}}
     </main>
+
 </body>
 </html>
 {{ end }}

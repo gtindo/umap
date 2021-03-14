@@ -30,7 +30,7 @@ func InitDb(dbStr string) error {
 	return db.Ping()
 }
 
-func InidRedisDb(addr string, password string, dbNum int) {
+func InitRedisDb(addr string, password string, dbNum int) {
 	rdb = redis.NewClient(&redis.Options{
 		Addr:     addr,
 		Password: password,

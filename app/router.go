@@ -18,6 +18,8 @@ func GetAppRouter() *mux.Router {
 	r.HandleFunc("/statistics", AnalyticsHandler).Methods("GET")
 	r.HandleFunc("/shorten", ShortenHandler)
 
+	r.HandleFunc("/login/google", GoogleLoginHandler)
+
 	r.HandleFunc("/{id}", RedirectHandler).Methods("GET")
 
 	return r
